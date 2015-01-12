@@ -70,14 +70,14 @@ func TestInit0(t *testing.T) {
 	h := []int32{}
 	for i := 20; i > 0; i-- {
 		n := int32(0)
-		h = Push( /*&NULL, */ Int32, h, &n) /*TYPECAST*/ // all elements are the same
+		Push( /*&NULL, */ Int32, &h, &n) /*TYPECAST*/ // all elements are the same
 	}
 	Heapify( /*&NULL, */ Int32, h, h)
 	myHeap(h).verify(t, 0)
 
 	for i := 1; len(h) > 0; i++ {
 		x := h[0]
-		h = Remove( /*&NULL, */ Int32, h, 0) /*TYPECAST*/
+		Remove( /*&NULL, */ Int32, &h, 0) /*TYPECAST*/
 		myHeap(h).verify(t, 0)
 		if x != 0 {
 			t.Errorf("%d.th pop got %d; want %d", i, x, 0)
@@ -88,14 +88,14 @@ func TestInit0(t *testing.T) {
 func TestInit1(t *testing.T) {
 	h := []int32{}
 	for i := int32(20); i > 0; i-- {
-		h = Push( /*&NULL, */ Int32, h, &i) /*TYPECAST*/ // all elements are different
+		Push( /*&NULL, */ Int32, &h, &i) /*TYPECAST*/ // all elements are different
 	}
 	Heapify( /*&NULL, */ Int32, h, h)
 	myHeap(h).verify(t, 0)
 
 	for i := int32(1); len(h) > 0; i++ {
 		x := h[0]
-		h = Remove( /*&NULL, */ Int32, h, 0) /*TYPECAST*/
+		Remove( /*&NULL, */ Int32, &h, 0) /*TYPECAST*/
 		myHeap(h).verify(t, 0)
 		if x != i {
 			t.Errorf("%d.th pop got %d; want %d", i, x, i)
@@ -108,22 +108,22 @@ func Test(t *testing.T) {
 	myHeap(h).verify(t, 0)
 
 	for i := int32(20); i > 10; i-- {
-		h = Push( /*&NULL, */ Int32, h, &i) /*TYPECAST*/ // all elements are different
+		Push( /*&NULL, */ Int32, &h, &i) /*TYPECAST*/ // all elements are different
 	}
 	Heapify( /*&NULL, */ Int32, h, h)
 	myHeap(h).verify(t, 0)
 
 	for i := int32(10); i > 0; i-- {
-		h = Push( /*&NULL, */ Int32, h, &i) /*TYPECAST*/ // all elements are different
+		Push( /*&NULL, */ Int32, &h, &i) /*TYPECAST*/ // all elements are different
 		myHeap(h).verify(t, 0)
 	}
 
 	for i := int32(1); len(h) > 0; i++ {
 		x := h[0]
-		h = Remove( /*&NULL, */ Int32, h, 0) /*TYPECAST*/
+		Remove( /*&NULL, */ Int32, &h, 0) /*TYPECAST*/
 		if i < 20 {
 			j := 20 + i
-			h = Push( /*&NULL, */ Int32, h, &j) /*TYPECAST*/ // all elements are different
+			Push( /*&NULL, */ Int32, &h, &j) /*TYPECAST*/ // all elements are different
 		}
 		myHeap(h).verify(t, 0)
 		if x != i {
@@ -135,7 +135,7 @@ func TestRemove0(t *testing.T) {
 	h := []int32{}
 
 	for i := int32(0); i < 10; i++ {
-		h = Push( /*&NULL, */ Int32, h, &i) /*TYPECAST*/
+		Push( /*&NULL, */ Int32, &h, &i) /*TYPECAST*/
 	}
 
 	myHeap(h).verify(t, 0)
@@ -144,7 +144,7 @@ func TestRemove0(t *testing.T) {
 		i := len(h) - 1
 
 		x := h[i]
-		h = Remove( /*&NULL, */ Int32, h, i) /*TYPECAST*/
+		Remove( /*&NULL, */ Int32, &h, i) /*TYPECAST*/
 		if x != int32(i) {
 			t.Errorf("Remove(%d) got %d; want %d", i, x, i)
 		}
@@ -157,14 +157,14 @@ func TestRemove1(t *testing.T) {
 	h := []int32{}
 
 	for i := int32(0); i < 10; i++ {
-		h = Push( /*&NULL, */ Int32, h, &i) /*TYPECAST*/
+		Push( /*&NULL, */ Int32, &h, &i) /*TYPECAST*/
 	}
 
 	myHeap(h).verify(t, 0)
 
 	for i := int32(0); len(h) > 0; i++ {
 		x := h[0]
-		h = Remove( /*&NULL, */ Int32, h, 0) /*TYPECAST*/
+		Remove( /*&NULL, */ Int32, &h, 0) /*TYPECAST*/
 		if x != i {
 			t.Errorf("Remove(0) got %d; want %d", x, i)
 		}
@@ -176,7 +176,7 @@ func TestRemove2(t *testing.T) {
 
 	h := []int32{}
 	for i := int32(0); i < int32(N); i++ {
-		h = Push( /*&NULL, */ Int32, h, &i)
+		Push( /*&NULL, */ Int32, &h, &i)
 	}
 	myHeap(h).verify(t, 0)
 
@@ -184,7 +184,7 @@ func TestRemove2(t *testing.T) {
 	for len(h) > 0 {
 		i := int32((len(h) - 1) / 2)
 		x := h[i]
-		h = Remove( /*&NULL, */ Int32, h, int(i))
+		Remove( /*&NULL, */ Int32, &h, int(i))
 		m[x] = true
 		myHeap(h).verify(t, 0)
 	}
@@ -205,10 +205,10 @@ func BenchmarkDup(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < n; j++ {
 			var zero int32 = 0
-			h = Push( /*&NULL, */ Int32, h, &zero) // all elements are the same
+			Push( /*&NULL, */ Int32, &h, &zero) // all elements are the same
 		}
 		for len(h) > 0 {
-			Remove(Int32, h, 0)
+			Remove(Int32, &h, 0)
 		}
 	}
 }
@@ -218,7 +218,7 @@ func TestFix(t *testing.T) {
 	myHeap(h).verify(t, 0)
 
 	for i := int32(200); i > 0; i -= 10 {
-		h = Push( /*&NULL, */ Int32, h, &i) /*TYPECAST*/
+		Push( /*&NULL, */ Int32, &h, &i) /*TYPECAST*/
 	}
 	myHeap(h).verify(t, 0)
 

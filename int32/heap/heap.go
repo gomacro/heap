@@ -12,10 +12,30 @@ import (
 // FIXME: bounded heap, deheap
 
 // does not check that the array is indeed heap-ordered
-func Push( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap []int32, elem *int32) (pushed []int32) {
-	pushed = append(heap, *elem)
-	up( /*ts0, */ compar, pushed, len(heap))
-	return
+func Push( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap *[]int32, elem *int32) {
+	l := len(*heap)
+	*heap = append(*heap, *elem)
+	up( /*ts0, */ compar, *heap, l)
+}
+
+// the return value shall not be ignored
+// deletes item from the heap at position N
+// pop is done by inspecting heap[0] and calling Remove(..,0)
+func Remove( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap *[]int32, i int) {
+
+	n := len(*heap) - 1
+	if n != i {
+		{ // swap
+			x := (*heap)[i]
+			(*heap)[i] = (*heap)[n]
+			(*heap)[n] = x
+		}
+		down( /*ts0, */ compar, (*heap), i, n)
+		if i != 0 {
+			up( /*ts0, */ compar, (*heap), i)
+		}
+	}
+	(*heap) = (*heap)[:n]
 }
 
 // another loads the second smallest value to heap[1]
@@ -34,25 +54,6 @@ func Another( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap []int3
 	}
 
 	down( /*ts0, */ compar, heap, 2, len(heap)) //FIXME: shouldn't be len(heap)-1?
-}
-
-// the return value shall not be ignored
-// deletes item from the heap at position N
-// pop is done by inspecting heap[0] and calling Remove(..,0)
-func Remove( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap []int32, i int) []int32 {
-	n := len(heap) - 1
-	if n != i {
-		{ // swap
-			x := heap[i]
-			heap[i] = heap[n]
-			heap[n] = x
-		}
-		down( /*ts0, */ compar, heap, i, n)
-		if i != 0 {
-			up( /*ts0, */ compar, heap, i)
-		}
-	}
-	return heap[:n]
 }
 
 func Fix( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap []int32, i int) {
