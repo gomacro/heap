@@ -1,6 +1,6 @@
 # heap
 
-A fast []int32 based binary heap.
+A fast []int32 binary heap.
 
 # Benchmark
 
