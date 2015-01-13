@@ -157,7 +157,7 @@ func fu64(u []uint64, v *reflect.SliceHeader, size uintptr) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-func Push(ts0 *[1]uintptr, compar interface{}, heap interface{}, elem interface{}) {
+func Push(compar interface{}, heap interface{}, elem interface{}) {
 
 	// OK
 	size := elemsize2(heap) //8,4,1
@@ -189,7 +189,7 @@ func Push(ts0 *[1]uintptr, compar interface{}, heap interface{}, elem interface{
 
 }
 
-func Heapify(ts0 *[1]uintptr, compar interface{}, dst interface{}, heap interface{}) {
+func Heapify(compar interface{}, dst interface{}, heap interface{}) {
 
 	// OK
 	size := elemsize(heap) //8,4,1
@@ -213,7 +213,7 @@ func Heapify(ts0 *[1]uintptr, compar interface{}, dst interface{}, heap interfac
 
 }
 
-func Remove(ts0 *[1]uintptr, compar interface{}, heap interface{}, i int) {
+func Remove(compar interface{}, heap interface{}, i int) {
 	// OK
 	size := elemsize2(heap) //8,4,1
 	//	fmt.Println("ELEM SIZE:", size)
@@ -244,7 +244,7 @@ func Remove(ts0 *[1]uintptr, compar interface{}, heap interface{}, i int) {
 	return
 
 }
-func Fix(ts0 *[1]uintptr, compar interface{}, heap interface{}, i int) {
+func Fix(compar interface{}, heap interface{}, i int) {
 	size := elemsize(heap) //8,4,1
 	//	fmt.Println("ELEM SIZE:", size)
 
@@ -266,7 +266,7 @@ func Fix(ts0 *[1]uintptr, compar interface{}, heap interface{}, i int) {
 
 }
 
-func Another(ts0 *[1]uintptr, compar interface{}, heap interface{}) {
+func Another(compar interface{}, heap interface{}) {
 	size := elemsize(heap) //8,4,1
 	//	fmt.Println("ELEM SIZE:", size)
 

@@ -9,8 +9,6 @@ import (
 	"testing"
 )
 
-var NULL = [1]uintptr{uintptr(1)}
-
 func Uint32(a, b *uint32) int {
 	r := int(*a>>16) - int(*b>>16)
 	if r != 0 {
@@ -72,16 +70,16 @@ func TestInit0(t *testing.T) {
 	h := []uint32{}
 	for i := 20; i > 0; i-- {
 		n := uint32(0)
-		Push(&NULL, Uint32, &h, &n) /*TYPECAST*/ // all elements are the same
+		Push(Uint32, &h, &n) /*TYPECAST*/ // all elements are the same
 	}
 
-	Heapify(&NULL, Uint32, h, h)
+	Heapify(Uint32, h, h)
 
 	myHeap(h).verify(t, 0)
 
 	for i := 1; len(h) > 0; i++ {
 		x := h[0]
-		Remove(&NULL, Uint32, &h, 0) /*TYPECAST*/
+		Remove(Uint32, &h, 0) /*TYPECAST*/
 		myHeap(h).verify(t, 0)
 		if x != 0 {
 			t.Errorf("%d.th pop got %d; want %d", i, x, 0)
@@ -92,14 +90,14 @@ func TestInit0(t *testing.T) {
 func TestInit1(t *testing.T) {
 	h := []uint32{}
 	for i := uint32(20); i > 0; i-- {
-		Push(&NULL, Uint32, &h, &i) /*TYPECAST*/ // all elements are different
+		Push(Uint32, &h, &i) /*TYPECAST*/ // all elements are different
 	}
-	Heapify(&NULL, Uint32, h, h)
+	Heapify(Uint32, h, h)
 	myHeap(h).verify(t, 0)
 
 	for i := uint32(1); len(h) > 0; i++ {
 		x := h[0]
-		Remove(&NULL, Uint32, &h, 0) /*TYPECAST*/
+		Remove(Uint32, &h, 0) /*TYPECAST*/
 		myHeap(h).verify(t, 0)
 		if x != i {
 			t.Errorf("%d.th pop got %d; want %d", i, x, i)
@@ -112,22 +110,22 @@ func Test(t *testing.T) {
 	myHeap(h).verify(t, 0)
 
 	for i := uint32(20); i > 10; i-- {
-		Push(&NULL, Uint32, &h, &i) /*TYPECAST*/ // all elements are different
+		Push(Uint32, &h, &i) /*TYPECAST*/ // all elements are different
 	}
-	Heapify(&NULL, Uint32, h, h)
+	Heapify(Uint32, h, h)
 	myHeap(h).verify(t, 0)
 
 	for i := uint32(10); i > 0; i-- {
-		Push(&NULL, Uint32, &h, &i) /*TYPECAST*/ // all elements are different
+		Push(Uint32, &h, &i) /*TYPECAST*/ // all elements are different
 		myHeap(h).verify(t, 0)
 	}
 
 	for i := uint32(1); len(h) > 0; i++ {
 		x := h[0]
-		Remove(&NULL, Uint32, &h, 0) /*TYPECAST*/
+		Remove(Uint32, &h, 0) /*TYPECAST*/
 		if i < 20 {
 			j := 20 + i
-			Push(&NULL, Uint32, &h, &j) /*TYPECAST*/ // all elements are different
+			Push(Uint32, &h, &j) /*TYPECAST*/ // all elements are different
 		}
 		myHeap(h).verify(t, 0)
 		if x != i {
@@ -139,7 +137,7 @@ func TestRemove0(t *testing.T) {
 	h := []uint32{}
 
 	for i := uint32(0); i < 10; i++ {
-		Push(&NULL, Uint32, &h, &i) /*TYPECAST*/
+		Push(Uint32, &h, &i) /*TYPECAST*/
 	}
 
 	myHeap(h).verify(t, 0)
@@ -148,7 +146,7 @@ func TestRemove0(t *testing.T) {
 		i := len(h) - 1
 
 		x := h[i]
-		Remove(&NULL, Uint32, &h, i) /*TYPECAST*/
+		Remove(Uint32, &h, i) /*TYPECAST*/
 		if x != uint32(i) {
 			t.Errorf("Remove(%d) got %d; want %d", i, x, i)
 		}
@@ -161,14 +159,14 @@ func TestRemove1(t *testing.T) {
 	h := []uint32{}
 
 	for i := uint32(0); i < 10; i++ {
-		Push(&NULL, Uint32, &h, &i) /*TYPECAST*/
+		Push(Uint32, &h, &i) /*TYPECAST*/
 	}
 
 	myHeap(h).verify(t, 0)
 
 	for i := uint32(0); len(h) > 0; i++ {
 		x := h[0]
-		Remove(&NULL, Uint32, &h, 0) /*TYPECAST*/
+		Remove(Uint32, &h, 0) /*TYPECAST*/
 		if x != i {
 			t.Errorf("Remove(0) got %d; want %d", x, i)
 		}
@@ -180,7 +178,7 @@ func TestRemove2(t *testing.T) {
 
 	h := []uint32{}
 	for i := uint32(0); i < uint32(N); i++ {
-		Push(&NULL, Uint32, &h, &i)
+		Push(Uint32, &h, &i)
 	}
 	myHeap(h).verify(t, 0)
 
@@ -188,7 +186,7 @@ func TestRemove2(t *testing.T) {
 	for len(h) > 0 {
 		i := uint32((len(h) - 1) / 2)
 		x := h[i]
-		Remove(&NULL, Uint32, &h, int(i))
+		Remove(Uint32, &h, int(i))
 		m[x] = true
 		myHeap(h).verify(t, 0)
 	}
@@ -209,10 +207,10 @@ func BenchmarkDup(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < n; j++ {
 			var zero uint32 = 0
-			Push(&NULL, Uint32, &h, &zero) // all elements are the same
+			Push(Uint32, &h, &zero) // all elements are the same
 		}
 		for len(h) > 0 {
-			Remove(&NULL, Uint32, &h, 0)
+			Remove(Uint32, &h, 0)
 		}
 	}
 }
@@ -222,7 +220,7 @@ func TestFix(t *testing.T) {
 	myHeap(h).verify(t, 0)
 
 	for i := uint32(200); i > 0; i -= 10 {
-		Push(&NULL, Uint32, &h, &i) /*TYPECAST*/
+		Push(Uint32, &h, &i) /*TYPECAST*/
 	}
 	myHeap(h).verify(t, 0)
 
@@ -231,7 +229,7 @@ func TestFix(t *testing.T) {
 	}
 
 	h[0] = 210
-	Fix(&NULL, Uint32, h, 0)
+	Fix(Uint32, h, 0)
 	myHeap(h).verify(t, 0)
 
 	for i := uint32(100); i > 0; i-- {
@@ -241,7 +239,7 @@ func TestFix(t *testing.T) {
 		} else {
 			h[elem] /= 2
 		}
-		Fix(&NULL, Uint32, h, elem)
+		Fix(Uint32, h, elem)
 		myHeap(h).verify(t, 0)
 	}
 }
@@ -256,7 +254,7 @@ func TestAnother0(t *testing.T) {
 	myHeap(m).verify(t, 0)
 	myHeap(h).verify(t, 0)
 
-	Another(&NULL, Uint32, h)
+	Another(Uint32, h)
 
 	if h[1] != 10 {
 		t.Errorf("Has %v", h)
