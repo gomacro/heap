@@ -1,9 +1,9 @@
 package heap
 
 import (
-	heap32 "example.com/repo.git/heap/32/heap"
-	heap64 "example.com/repo.git/heap/64/heap"
-	heap8 "example.com/repo.git/heap/8/heap"
+	heap32 "github.com/gomacro/heap/32/heap"
+	heap64 "github.com/gomacro/heap/64/heap"
+	heap8 "github.com/gomacro/heap/8/heap"
 	"reflect"
 	"unsafe"
 )
