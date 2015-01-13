@@ -1,6 +1,7 @@
 # heap
 
-A fast []int32 binary heap.
+*	A fast []int32 binary heap.
+*	Arbitrary slice binary heap.
 
 # Benchmark
 
