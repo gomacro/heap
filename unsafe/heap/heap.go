@@ -1,3 +1,7 @@
+// Copyright 2015 The GOMACRO Authors. All rights reserved.
+// Use of this source code is governed by a GPLv2-style
+// license that can be found in the LICENSE file.
+
 package heap
 
 import (
