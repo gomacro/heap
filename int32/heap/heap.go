@@ -2,25 +2,30 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// Package heap provides a heap (a priority queue) operations on a slice.
 package heap
 
-import (
-//	"reflect"
-//	"unsafe"
-)
+// Pop is not provided. Reason: Consistency with the generic code.
+// Please use popped = heap[0] ; Remove(compar, heap, 0);
+func Pop() {
+	panic("The Pop is not provided. Use Remove(compar, heap, 0).")
+}
 
-// FIXME: bounded heap, deheap
-
-// does not check that the array is indeed heap-ordered
+// Push pushes the element x onto the heap.
+// The compar is a compare function.
+// The heap is a heapified slice.
+// The elem element is a pointer to an element of the same type.
+// The complexity is O(log(n)) where n = h.Len().
 func Push( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap *[]int32, elem *int32) {
 	l := len(*heap)
 	*heap = append(*heap, *elem)
 	up( /*ts0, */ compar, *heap, l)
 }
 
-// the return value shall not be ignored
-// deletes item from the heap at position N
-// pop is done by inspecting heap[0] and calling Remove(..,0)
+// Remove removes the element at index i from the heap.
+// The compar is a compare function.
+// The heap is a heapified slice.
+// The complexity is O(log(n)) where n = h.Len().
 func Remove( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap *[]int32, i int) {
 
 	n := len(*heap) - 1
@@ -38,7 +43,9 @@ func Remove( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap *[]int3
 	(*heap) = (*heap)[:n]
 }
 
-// another loads the second smallest value to heap[1]
+// Another loads the second-top value to heap[1]
+// The compar is a compare function.
+// The heap is a heapified slice.
 func Another( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap []int32) {
 	// first we check that [1] < [2]
 
@@ -56,11 +63,24 @@ func Another( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap []int3
 	down( /*ts0, */ compar, heap, 2, len(heap)) //FIXME: shouldn't be len(heap)-1?
 }
 
+// Fix re-establishes the heap ordering after the element at index i has
+// changed its value. Changing the value of the element at index i and then
+// calling Fix is equivalent to, but less expensive than, calling Remove(h, i)
+// followed by a Push of the new value.
+// The compar is a compare function.
+// The heap is a slice.
+// The complexity is O(log(n)) where n = h.Len().
 func Fix( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, heap []int32, i int) {
 	down( /*ts0, */ compar, heap, i, len(heap)) //FIXME: shouldn't be len(heap)-1?
 	up( /*ts0, */ compar, heap, i)
 }
 
+// A heap must be initialized before any of the heap operations can be used.
+// Heapify is idempotent with respect to the heap invariants and may be called
+// whenever the heap invariants may have been invalidated.
+// The compar is a compare function.
+// Then heap is a source slice. Dst is a result slice. In place is supported.
+// Its complexity is O(n) where n = h.Len().
 func Heapify( /*ts0 *[1]uintptr, */ compar func(*int32, *int32) int, dst []int32, heap []int32) {
 	n := len(heap)
 	if &dst[0] == &heap[0] {

@@ -2,6 +2,7 @@
 // Use of this source code is governed by a GPLv2-style
 // license that can be found in the LICENSE file.
 
+// Package heap provides a heap (a priority queue) operations on a slice.
 package heap
 
 import (
@@ -157,6 +158,17 @@ func fu64(u []uint64, v *reflect.SliceHeader, size uintptr) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+// Pop is not provided. Reason: We do not return generic pointer.
+// Please use popped = heap[0] ; Remove(compar, heap, 0);
+func Pop() {
+	panic("The Pop is not provided. Use Remove(compar, heap, 0).")
+}
+
+// Push pushes the element x onto the heap.
+// The compar is a compare function.
+// The heap is a heapified slice.
+// The elem element is a pointer to an element of the same type.
+// The complexity is O(log(n)) where n = h.Len().
 func Push(compar interface{}, heap interface{}, elem interface{}) {
 
 	// OK
@@ -189,6 +201,12 @@ func Push(compar interface{}, heap interface{}, elem interface{}) {
 
 }
 
+// A heap must be initialized before any of the heap operations can be used.
+// Heapify is idempotent with respect to the heap invariants and may be called
+// whenever the heap invariants may have been invalidated.
+// The compar is a compare function.
+// Then heap is a source slice. Dst is a result slice. In place is supported.
+// Its complexity is O(n) where n = h.Len().
 func Heapify(compar interface{}, dst interface{}, heap interface{}) {
 
 	// OK
@@ -213,6 +231,10 @@ func Heapify(compar interface{}, dst interface{}, heap interface{}) {
 
 }
 
+// Remove removes the element at index i from the heap.
+// The compar is a compare function.
+// The heap is a heapified slice.
+// The complexity is O(log(n)) where n = h.Len().
 func Remove(compar interface{}, heap interface{}, i int) {
 	// OK
 	size := elemsize2(heap) //8,4,1
@@ -244,6 +266,14 @@ func Remove(compar interface{}, heap interface{}, i int) {
 	return
 
 }
+
+// Fix re-establishes the heap ordering after the element at index i has
+// changed its value. Changing the value of the element at index i and then
+// calling Fix is equivalent to, but less expensive than, calling Remove(h, i)
+// followed by a Push of the new value.
+// The compar is a compare function.
+// The heap is a slice.
+// The complexity is O(log(n)) where n = h.Len().
 func Fix(compar interface{}, heap interface{}, i int) {
 	size := elemsize(heap) //8,4,1
 	//	fmt.Println("ELEM SIZE:", size)
@@ -266,6 +296,9 @@ func Fix(compar interface{}, heap interface{}, i int) {
 
 }
 
+// Another loads the second-top value to heap[1]
+// The compar is a compare function.
+// The heap is a heapified slice.
 func Another(compar interface{}, heap interface{}) {
 	size := elemsize(heap) //8,4,1
 	//	fmt.Println("ELEM SIZE:", size)
