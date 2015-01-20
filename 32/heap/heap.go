@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// Package heap has 32-bit macro functions, callable from a third-party macros.
 package heap
 
 import (
