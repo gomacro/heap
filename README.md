@@ -8,6 +8,10 @@
 # Install
 	go get github.com/gomacro/heap/int32/heap
 	import "github.com/gomacro/heap/int32/heap"
+<!-- -->
+	go get github.com/gomacro/heap/unsafe/heap
+	import "github.com/gomacro/heap/unsafe/heap"
+
 
 # License
 
