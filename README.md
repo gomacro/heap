@@ -17,4 +17,4 @@
 
 Adapted from go std heap.
 
-Version: v0.0
+Version: v0.1
