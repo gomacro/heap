@@ -1,27 +1,13 @@
 # heap
 
+[![GoDoc](https://godoc.org/github.com/gomacro/heap/unsafe/heap?status.svg)](https://godoc.org/github.com/gomacro/heap/unsafe/heap)
+
 *	A fast []int32 binary heap.
 *	Arbitrary slice binary heap.
 
-# Benchmark
-
-N/A
-
-# Go get
-
+# Install
 	go get github.com/gomacro/heap/int32/heap
-
-# Import
-
-	"github.com/gomacro/heap/int32/heap"
-
-# Example
-
-N/A
-
-# Docs
-
-N/A
+	import "github.com/gomacro/heap/int32/heap"
 
 # License
 
